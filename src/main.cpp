@@ -9,8 +9,56 @@
 #include <cstdlib>
 #include <iostream>
 #include <array>
+#include <fstream>
 
 #define countTiles 11
+
+constexpr int
+    TileSize = 16,
+    SizeX = 11,
+    SizeY = 11,
+    RealSizeX = 60,
+    RealSizeY = 60,
+    TileSheetHeight = 2,
+    TileSheetWidth = 6;
+
+// Die Karte / das Level
+std::array<std::array<std::array<int, SizeX>, SizeY>, 6> map;
+
+double temp = 0;
+
+// Positionen innerhalb des Tilesets
+constexpr const SDL_Point fieldStates[countTiles]{
+    {.x = 0, .y = 0}, // player
+    {.x = 1, .y = 0}, // wall
+    {.x = 2, .y = 0}, // stone
+    {.x = 0, .y = 1}, // diamond
+    {.x = 1, .y = 1}, // dirt
+    {.x = 2, .y = 1}, // space
+    {.x = 3, .y = 0}, // firefly
+    {.x = 4, .y = 0}, // butterfly
+    {.x = 3, .y = 1}, // amoeba
+    {.x = 5, .y = 0}, // hard wall (never randomly selected)
+    {.x = 5, .y = 1}, // hard wall (never randomly selected)
+};
+
+void writemap(std::string filename)
+{
+    std::ofstream os(filename);
+    for (int s = 0; s < 6; s++)
+    {
+        for (int i = 0; i < SizeY; ++i)
+        {
+            for (int j = 0; j < SizeX; ++j)
+            {
+                os << map[s][i][j] << " ";
+            }
+            os << "\n";
+        }
+        os << "\n";
+    }
+    os.close();
+}
 
 int main(int argc, char *argv[])
 {
@@ -43,35 +91,6 @@ int main(int argc, char *argv[])
         yv = 10.f;
 
     ///  Zusätzlich zu den Globals / Class variables
-
-    constexpr int
-        TileSize = 16,
-        SizeX = 11,
-        SizeY = 11,
-        RealSizeX = 60,
-        RealSizeY = 60,
-        TileSheetHeight = 2,
-        TileSheetWidth = 6;
-
-    // Die Karte / das Level
-    std::array<std::array<std::array<int, SizeX>, SizeY>, 6> map;
-
-    double temp = 0;
-
-    // Positionen innerhalb des Tilesets
-    constexpr const SDL_Point fieldStates[countTiles]{
-        {.x = 0, .y = 0}, // player
-        {.x = 1, .y = 0}, // wall
-        {.x = 2, .y = 0}, // stone
-        {.x = 0, .y = 1}, // diamond
-        {.x = 1, .y = 1}, // dirt
-        {.x = 2, .y = 1}, // space
-        {.x = 3, .y = 0}, // firefly
-        {.x = 4, .y = 0}, // butterfly
-        {.x = 3, .y = 1}, // amoeba
-        {.x = 5, .y = 0}, // hard wall (never randomly selected)
-        {.x = 5, .y = 1}, // hard wall (never randomly selected)
-    };
 
     ///  Zusätzlich zum Startup
 
@@ -180,11 +199,19 @@ int main(int argc, char *argv[])
         {
             side = 5;
         }
+        if (state[SDL_SCANCODE_S])
+        {
+
+            // Save to File
+            std::cout << "export\n";
+            writemap("level/out1.txt");
+            SDL_Delay(500);
+        }
 
         int x, y;
         Uint32 buttons;
 
-        ////SDL_PumpEvents();  brauch nicht weil oben PollEvent // make sure we have the latest mouse state.
+        // SDL_PumpEvents();  brauch nicht weil oben PollEvent // make sure we have the latest mouse state.
 
         buttons = SDL_GetMouseState(&x, &y);
 
