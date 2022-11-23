@@ -1,0 +1,5 @@
+build
+bin
+.vscode
+SDL2*
+cmake-*

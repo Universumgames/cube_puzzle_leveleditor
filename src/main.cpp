@@ -1,5 +1,11 @@
+
+#if defined(_WIN32) || defined(Macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
+#include <SDL.h>
+#include <SDL_image.h>
+#else
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#endif
 #include <cstdlib>
 #include <iostream>
 #include <array>
