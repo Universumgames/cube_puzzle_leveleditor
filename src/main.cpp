@@ -27,17 +27,19 @@ std::array<std::array<std::array<int, SizeX>, SizeY>, 6> map;
 double temp = 0;
 
 constexpr const SDL_Point fieldStates[countTiles]{
+    {.x = 5, .y = 1}, 
+    {.x = 0, .y = 1},
     {.x = 0, .y = 0},
     {.x = 1, .y = 0},
-    {.x = 2, .y = 0}, 
-    {.x = 0, .y = 1}, 
+    {.x = 2, .y = 0},  
     {.x = 1, .y = 1}, 
     {.x = 2, .y = 1}, 
     {.x = 3, .y = 0}, 
     {.x = 4, .y = 0}, 
     {.x = 3, .y = 1}, 
-    {.x = 5, .y = 0}, 
-    {.x = 5, .y = 1}, 
+    {.x = 5, .y = 0},
+};
+    
 
 void writemap(std::string filename)
 {
@@ -128,7 +130,7 @@ int main(int argc, char *argv[])
         {
             for (int x = 0; x < SizeX; ++x)
             {
-                map[i][y][x] = 10;
+                map[i][y][x] = 0;
             }
         }
     }
