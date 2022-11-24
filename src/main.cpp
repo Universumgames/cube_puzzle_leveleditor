@@ -41,6 +41,9 @@ constexpr const SDL_Point fieldStates[countTiles]{
     //{.x = 5, .y = 0},
 };
 
+std::string input;
+std::string output;
+
 void writemap(std::string filename)
 {
     std::ofstream os(filename);
@@ -61,6 +64,21 @@ void writemap(std::string filename)
 
 int main(int argc, char *argv[])
 {
+    std::cout << argc << "\n";
+    if (argc == 3)
+    {
+        input = argv[1];
+        output = argv[2];
+    }
+    else if (argc == 2)
+    {
+        output = argv[1];
+    }
+    else
+    {
+        output = "level/out1.txt";
+    }
+
     SDL_Init(SDL_INIT_EVERYTHING);
 
     SDL_Window *window = SDL_CreateWindow(
@@ -188,15 +206,15 @@ int main(int argc, char *argv[])
         if (state[SDL_SCANCODE_S])
         {
 
-            std::cout << "export\n";
-            writemap("level/out1.txt");
+            std::cout << "export"<< output << "\n";
+            writemap(output);
             SDL_Delay(500);
         }
 
         if (state[SDL_SCANCODE_R])
         {
-            std::cout << "reload/imported\n";
-            writemap("level/out1.txt");
+            std::cout << "reload/imported"<< input << "\n";
+            writemap(input);
             SDL_Delay(500);
         }
 
