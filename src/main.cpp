@@ -22,31 +22,29 @@ constexpr int
     TileSheetHeight = 2,
     TileSheetWidth = 6;
 
-// Die Karte / das Level
 std::array<std::array<std::array<int, SizeX>, SizeY>, 6> map;
 
 double temp = 0;
 
-// Positionen innerhalb des Tilesets
 constexpr const SDL_Point fieldStates[countTiles]{
-    {.x = 0, .y = 0}, // player
-    {.x = 1, .y = 0}, // wall
-    {.x = 2, .y = 0}, // stone
-    {.x = 0, .y = 1}, // diamond
-    {.x = 1, .y = 1}, // dirt
-    {.x = 2, .y = 1}, // space
-    {.x = 3, .y = 0}, // firefly
-    {.x = 4, .y = 0}, // butterfly
-    {.x = 3, .y = 1}, // amoeba
-    {.x = 5, .y = 0}, // hard wall (never randomly selected)
-    {.x = 5, .y = 1}, // hard wall (never randomly selected)
-};
+    {.x = 0, .y = 0},
+    {.x = 1, .y = 0},
+    {.x = 2, .y = 0}, 
+    {.x = 0, .y = 1}, 
+    {.x = 1, .y = 1}, 
+    {.x = 2, .y = 1}, 
+    {.x = 3, .y = 0}, 
+    {.x = 4, .y = 0}, 
+    {.x = 3, .y = 1}, 
+    {.x = 5, .y = 0}, 
+    {.x = 5, .y = 1}, 
 
 void writemap(std::string filename)
 {
     std::ofstream os(filename);
     for (int s = 0; s < 6; s++)
     {
+        os << SizeX << " " << SizeY <<"\n";
         for (int i = 0; i < SizeY; ++i)
         {
             for (int j = 0; j < SizeX; ++j)
@@ -55,7 +53,6 @@ void writemap(std::string filename)
             }
             os << "\n";
         }
-        os << "\n";
     }
     os.close();
 }
@@ -84,29 +81,21 @@ int main(int argc, char *argv[])
                                 : 60;
 
     float
-        dt = 1.f / (float)refreshRate, // delta time, Zeit zwischen den Frames in Sekunden
+        dt = 1.f / (float)refreshRate,
         x = 50.f,
         y = 50.f,
         xv = 15.f,
         yv = 10.f;
 
-    ///  Zusätzlich zu den Globals / Class variables
-
-    ///  Zusätzlich zum Startup
-
-    // Laden externer shared Libraries und initialisierung des SDL Image Subsystems
     IMG_Init(IMG_INIT_JPG |
              IMG_INIT_PNG |
              IMG_INIT_TIF |
              IMG_INIT_WEBP);
 
-    // Bild (hier unser Tileset) in den Hauptspeicher laden
     SDL_Surface *surface = IMG_Load("res/AllTestTyleWaterChangeWall.png");
 
-    // Bild vom Hauptspeicher in den Grafikkartenspeicher laden/übertragen
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
 
-    // Kein Bedarf mehr das Bild im Hauptspeicher zu halten, freigeben
     SDL_FreeSurface(surface);
 
     surface = IMG_Load("res/Cube1.png");
@@ -148,7 +137,7 @@ int main(int argc, char *argv[])
     int test_number = 0;
     int feld_typ = 5;
     int player_temp = 0;
-    int player_state = 0; // 0 nichts / 1 links / 2 rechts / 3 Oben / 4 unten
+    int player_state = 0;
     int side = 0;
     int selectAnimation = 0;
 
@@ -160,10 +149,6 @@ int main(int argc, char *argv[])
     while (true)
     {
 
-        // ein Frame
-
-        // SDL_PumpEvents() nur nutzen wenn kein SDL_PollEvent() verwendet wird
-
         SDL_Event event;
         while (SDL_PollEvent(&event))
             if (event.type == SDL_QUIT)
@@ -173,7 +158,6 @@ int main(int argc, char *argv[])
                 return 0;
             }
 
-        // Auswahl des feld types
         const Uint8 *state = SDL_GetKeyboardState(nullptr);
         if (state[SDL_SCANCODE_1])
         {
@@ -202,7 +186,6 @@ int main(int argc, char *argv[])
         if (state[SDL_SCANCODE_S])
         {
 
-            // Save to File
             std::cout << "export\n";
             writemap("level/out1.txt");
             SDL_Delay(500);
@@ -211,22 +194,17 @@ int main(int argc, char *argv[])
         int x, y;
         Uint32 buttons;
 
-        // SDL_PumpEvents();  brauch nicht weil oben PollEvent // make sure we have the latest mouse state.
 
         buttons = SDL_GetMouseState(&x, &y);
 
-        // SDL_Log("Mouse cursor is at %d, %d", x, y);
         if ((buttons & SDL_BUTTON_LMASK) != 0)
         {
-            // SDL_Log("Mouse Button 1 (left) is pressed.");
             int zelle_x = x / (RealSizeX);
-            int zelle_y = y / (RealSizeY)-1; // Eines weg nehmen wegen Title
-                                             // std::cout << "zelle_x: " << zelle_x << " zelle_y: " << zelle_y << "\n";
+            int zelle_y = y / (RealSizeY)-1; 
 
             if (zelle_y < SizeY && zelle_x < SizeX)
             {
                 map[side][zelle_y][zelle_x] = feld_typ;
-                // std::cout << "Hallo \n";
             }
 
             if (zelle_x > SizeX)
@@ -241,7 +219,6 @@ int main(int argc, char *argv[])
                     }
                 }
             }
-            // std::cout << "zelle_x: " << zelle_x << " zelle_y: " << zelle_y << "\n";
         }
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -293,26 +270,20 @@ int main(int argc, char *argv[])
             {
                 const int currentField = map[side][y][x];
 
-                // Anhand des Status-Index wird die Position innerhalb des Tileset bestimmt
                 const SDL_Point &selectedState = fieldStates[currentField];
 
-                // Quell-Rechteck innerhalb unseres Tilesets
                 const SDL_Rect srcrect{
                     .x = selectedState.x * TileSize,
                     .y = selectedState.y * TileSize,
                     .w = TileSize,
                     .h = TileSize};
 
-                // std::cout << srcrect.x << " "<< srcrect.y << " " << TileSize << "\n";
-
-                // Ziel-Rechteck innerhalb unseres Windows/Fensters
                 const SDL_Rect dstrect{
                     .x = x * RealSizeX,
-                    .y = y * RealSizeY + RealSizeY, // Die oberste Zeile wird später für das HUD benötigt, deswegen wird alles um einen Tile nach unten geschoben
+                    .y = y * RealSizeY + RealSizeY, 
                     .w = RealSizeX,
                     .h = RealSizeY};
 
-                // Hier wird von der Texture in den Renderer kopiert (hardware-beschleunigt)
                 SDL_RenderCopy(renderer, texture, &srcrect, &dstrect);
             }
         }
@@ -356,11 +327,10 @@ int main(int argc, char *argv[])
 
                 const SDL_Rect dstrect{
                     .x = x * RealSizeX,
-                    .y = y * RealSizeY + RealSizeY, // Die oberste Zeile wird später für das HUD benötigt, deswegen wird alles um einen Tile nach unten geschoben
+                    .y = y * RealSizeY + RealSizeY,
                     .w = RealSizeX,
                     .h = RealSizeY};
 
-                // Hier wird von der Texture in den Renderer kopiert (hardware-beschleunigt)
                 SDL_RenderDrawRect(renderer, &dstrect);
             }
         }
