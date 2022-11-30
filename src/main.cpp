@@ -95,11 +95,13 @@ int main(int argc, char *argv[])
     }
     else if (argc == 2)
     {
+        input = "level/out.txt";
         output = argv[1];
     }
     else
     {
-        output = "level/out1.txt";
+        input = "level/out.txt";
+        output = "level/out.txt";
     }
 
     SDL_Init(SDL_INIT_EVERYTHING);
