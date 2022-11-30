@@ -93,15 +93,6 @@ void readmap(std::string filename)
 }
 
 
-
-/*
-TODO
-
-levelname
-id pos
-[playerPos]
-[star side]
-*/
 int main(int argc, char *argv[])
 {
     std::cout << argc << "\n";
