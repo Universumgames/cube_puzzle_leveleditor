@@ -23,7 +23,8 @@ constexpr int
     TileSheetWidth = 6;
 
 std::array<std::array<std::array<int, SizeX>, SizeY>, 6> map;
-
+std::string level_name = "Test";
+int id_index = 1;
 double temp = 0;
 
 constexpr const SDL_Point fieldStates[countTiles]{
@@ -47,6 +48,10 @@ std::string output;
 void writemap(std::string filename)
 {
     std::ofstream os(filename);
+    if(!os){
+        return;
+    }
+    os << level_name << " " << id_index << "\n";
     for (int s = 0; s < 6; s++)
     {
         os << SizeX << " " << SizeY << "\n";
@@ -66,6 +71,8 @@ void readmap(std::string filename)
 {
 
     std::ifstream is(filename);
+    is >> level_name;
+    is >> id_index;
     for (int s = 0; s < 6; s++)
     {
         int rSideX = 0;
@@ -85,10 +92,20 @@ void readmap(std::string filename)
     is.close();
 }
 
+
+
+/*
+TODO
+
+levelname
+id pos
+[playerPos]
+[star side]
+*/
 int main(int argc, char *argv[])
 {
     std::cout << argc << "\n";
-    if (argc == 3)
+    if (argc >= 3)
     {
         input = argv[1];
         output = argv[2];
@@ -102,6 +119,11 @@ int main(int argc, char *argv[])
     {
         input = "level/out.txt";
         output = "level/out.txt";
+    }
+
+    if (argc==5){
+        level_name = argv[3];
+        id_index = std::stoi(argv[4]);
     }
 
     SDL_Init(SDL_INIT_EVERYTHING);
