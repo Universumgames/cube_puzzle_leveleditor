@@ -62,6 +62,29 @@ void writemap(std::string filename)
     os.close();
 }
 
+void readmap(std::string filename)
+{
+
+    std::ifstream is(filename);
+    for (int s = 0; s < 6; s++)
+    {
+        int rSideX = 0;
+        is >> rSideX;
+        int rSideY = 0;
+        is >> rSideY;
+
+        if (rSideX != SizeX || rSideY != SizeY)
+            return;
+
+        for(int x = 0; x<SizeX;x++){
+            for(int y= 0;y<SizeY;y++){
+                is >> map[s][x][y];
+            }
+        }
+    }
+    is.close();
+}
+
 int main(int argc, char *argv[])
 {
     std::cout << argc << "\n";
@@ -206,15 +229,15 @@ int main(int argc, char *argv[])
         if (state[SDL_SCANCODE_S])
         {
 
-            std::cout << "export"<< output << "\n";
+            std::cout << "export" << output << "\n";
             writemap(output);
             SDL_Delay(500);
         }
 
         if (state[SDL_SCANCODE_R])
         {
-            std::cout << "reload/imported"<< input << "\n";
-            writemap(input);
+            std::cout << "reload/imported" << input << "\n";
+            readmap(input);
             SDL_Delay(500);
         }
 
