@@ -48,7 +48,8 @@ std::string output;
 void writemap(std::string filename)
 {
     std::ofstream os(filename);
-    if(!os){
+    if (!os)
+    {
         return;
     }
     os << level_name << " " << id_index << "\n";
@@ -83,8 +84,10 @@ void readmap(std::string filename)
         if (rSideX != SizeX || rSideY != SizeY)
             return;
 
-        for(int x = 0; x<SizeX;x++){
-            for(int y= 0;y<SizeY;y++){
+        for (int x = 0; x < SizeX; x++)
+        {
+            for (int y = 0; y < SizeY; y++)
+            {
                 is >> map[s][x][y];
             }
         }
@@ -92,6 +95,19 @@ void readmap(std::string filename)
     is.close();
 }
 
+void clearmap()
+{
+    for (int s = 0; s < 6; s++)
+    {
+        for (int x = 0; x < SizeX; x++)
+        {
+            for (int y = 0; y < SizeY; y++)
+            {
+                map[s][x][y] = 0;
+            }
+        }
+    }
+}
 
 int main(int argc, char *argv[])
 {
@@ -112,7 +128,8 @@ int main(int argc, char *argv[])
         output = "level/out.txt";
     }
 
-    if (argc==5){
+    if (argc == 5)
+    {
         level_name = argv[3];
         id_index = std::stoi(argv[4]);
     }
@@ -256,7 +273,15 @@ int main(int argc, char *argv[])
             SDL_Delay(500);
         }
 
-        int x, y;
+        if (state[SDL_SCANCODE_C])
+        {
+            std::cout << "clean" << output << "\n";
+            clearmap();
+            SDL_Delay(500);
+        }
+
+        int x,
+            y;
         Uint32 buttons;
 
         buttons = SDL_GetMouseState(&x, &y);
