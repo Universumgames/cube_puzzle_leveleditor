@@ -3,3 +3,4 @@ bin
 .vscode
 SDL2*
 cmake-*
+.idea
