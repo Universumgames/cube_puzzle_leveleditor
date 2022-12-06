@@ -11,7 +11,7 @@
 #include <array>
 #include <fstream>
 
-#define countTiles 9
+#define countTiles 11
 
 constexpr int
     TileSize = 16,
@@ -28,18 +28,17 @@ int id_index = 1;
 double temp = 0;
 
 constexpr const SDL_Point fieldStates[countTiles]{
-    {.x = 5, .y = 1},
-    {.x = 0, .y = 1},
-    {.x = 1, .y = 0},
-    {.x = 2, .y = 0},
-    {.x = 3, .y = 0},
-    {.x = 4, .y = 0},
-    {.x = 3, .y = 1},
-    {.x = 4, .y = 1},
-    {.x = 0, .y = 0},
-    //{.x = 1, .y = 1},
-    //{.x = 2, .y = 1},
-    //{.x = 5, .y = 0},
+    {.x = 0, .y = 0}, // Empty
+    {.x = 0, .y = 1}, // Flag
+    {.x = 1, .y = 0}, // Wall 1
+    {.x = 2, .y = 0}, // Wall 2
+    {.x = 1, .y = 1}, // Pressure Plate
+    {.x = 2, .y = 1}, // Slider bigX
+    {.x = 3, .y = 1}, // Slider smallX
+    {.x = 5, .y = 1}, // Slider bigY
+    {.x = 4, .y = 1}, // Slider smallY
+    {.x = 3, .y = 0}, // Magnet
+    {.x = 4, .y = 0}, // Stone
 };
 
 std::string input;
@@ -167,7 +166,7 @@ int main(int argc, char *argv[])
              IMG_INIT_TIF |
              IMG_INIT_WEBP);
 
-    SDL_Surface *surface = IMG_Load("res/AllTestTyleWaterChangeWall.png");
+    SDL_Surface *surface = IMG_Load("res/AllTestTyle.png");
 
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
 
