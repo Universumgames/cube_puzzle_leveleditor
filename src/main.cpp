@@ -12,7 +12,7 @@
 #include <fstream>
 #include <string>
 
-#define countTiles 11
+#define countTiles 12
 
 constexpr int
     TileSize = 16,
@@ -40,6 +40,7 @@ constexpr const SDL_Point fieldStates[countTiles]{
     {.x = 4, .y = 1}, // Slider smallY
     {.x = 3, .y = 0}, // Magnet
     {.x = 4, .y = 0}, // Stone
+    {.x = 5, .y = 0}, // Object Blocker
 };
 
 std::string input;
