@@ -10,6 +10,7 @@
 #include <iostream>
 #include <array>
 #include <fstream>
+#include <string>
 
 #define countTiles 11
 
