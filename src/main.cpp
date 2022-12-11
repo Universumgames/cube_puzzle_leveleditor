@@ -12,7 +12,7 @@
 #include <fstream>
 #include <string>
 
-#define countTiles 12
+#define countTiles 28
 
 constexpr int
     TileSize = 16,
@@ -20,7 +20,7 @@ constexpr int
     SizeY = 11,
     RealSizeX = 60,
     RealSizeY = 60,
-    TileSheetHeight = 2,
+    TileSheetHeight = 6,
     TileSheetWidth = 6;
 
 std::array<std::array<std::array<int, SizeX>, SizeY>, 6> map;
@@ -41,6 +41,24 @@ constexpr const SDL_Point fieldStates[countTiles]{
     {.x = 3, .y = 0}, // Magnet
     {.x = 4, .y = 0}, // Stone
     {.x = 5, .y = 0}, // Object Blocker
+    // ###############  green
+    {.x = 0, .y = 2}, // Pressure Plate
+    {.x = 1, .y = 2}, // Slider bigX
+    {.x = 2, .y = 2}, // Slider smallX
+    {.x = 4, .y = 2}, // Slider bigY
+    {.x = 3, .y = 2}, // Slider smallY
+    // ############### yellow
+    {.x = 0, .y = 3}, // Pressure Plate
+    {.x = 1, .y = 3}, // Slider bigX
+    {.x = 2, .y = 3}, // Slider smallX
+    {.x = 4, .y = 3}, // Slider bigY
+    {.x = 3, .y = 3}, // Slider smallY
+    // ############### blue
+    {.x = 0, .y = 4}, // Pressure Plate
+    {.x = 1, .y = 4}, // Slider bigX
+    {.x = 2, .y = 4}, // Slider smallX
+    {.x = 4, .y = 4}, // Slider bigY
+    {.x = 3, .y = 4}, // Slider smallY
 };
 
 std::string input;
