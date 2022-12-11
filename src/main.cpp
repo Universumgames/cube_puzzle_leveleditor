@@ -12,7 +12,7 @@
 #include <fstream>
 #include <string>
 
-#define countTiles 28
+#define countTiles 27
 
 constexpr int
     TileSize = 16,
